@@ -1,0 +1,51 @@
+-Pasos para agregar vault
+-descarga y colocar el .exe en una carpeta
+-colocar la ruta donde esta el excel dentro de ruta de path en las variables entorno
+
+-abrir la consola en la ruta donde esta el archivo .exe y ejecutar el siguiente comando:
+	se coloca el token:
+	vault server --dev --dev-root-token-id="00000000-0000-0000-0000-000000000000"
+reiniciar la pc, si es que no ejecuta.
+
+-crear la variable de entorno con el siguiente valor
+	VAULT_ADDR http://127.0.0.1:8200
+
+-crear un archivo en json , incluir en el .ignore para que estos archivos .json, no se suban al repositorio
+exam:
+	booking-microservice.json
+	se incluye la informacion a guardar en el vault
+
+{
+"spring.datasource.username":"root",
+"spring.datasource.password":123456
+}
+
+- ingresar a la ruta del repositorio de configuracion mediante cmd y ejecutar el siguiente comando:
+ejemplo de ruta:D:\Cursos\Microservicio\service-configuration>
+
+vault kv put secret/product-microservice @product-microservice.json
+otro ejemplo:
+vault kv put secret/booking-microservice @booking-microservice.json
+
+-para visualizar las llaves dentro del vaul ingresar a la ruta http://127.0.0.1:8200
+*nota
+mientras se ejecute el servidor de vault en modo desarrollador entorno local, 
+siempre se debe tener iniciado.
+
+-agregar la dependencia al proyecto de donde se guardaron las llaves al servidor de vault.
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-vault-config</artifactId>	
+			<version>3.1.1</version>
+		</dependency>
+
+agregar las llaves de configuracion de bootstrap.properties
+
+## llaves de configuracion para que vault pueda conectarse a nuestro servicio
+spring.cloud.vault.application-name=booking-microservice
+spring.cloud.vault.host=localhost
+spring.cloud.vault.port=8200
+spring.cloud.vault.scheme=http
+spring.cloud.vault.authentication=TOKEN
+spring.cloud.vault.token=00000000-0000-0000-0000-000000000000
+
