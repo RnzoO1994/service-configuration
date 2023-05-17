@@ -1,0 +1,32 @@
+
+pasos para instalar el keycloak
+
+ir a la pagina de keycloak, opcion guide:
+clic en la opcion de Docker:
+copiamos el comando y editamos el puerto.
+
+docker run -p 9090:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:17.0.0 start-dev
+
+ingresar con las credenciales admin:admin
+http://localhost:9090/admin/master/console/#/realms/mycompany-microservices-realm
+-creamos un realm
+-colocamos un nombre ejemplo: mycompany-microservices-realm
+
+-agregamos el client
+Client ID: spring-cloud-gateway-client
+Name: Api Gateway
+Access Type: confidential
+*Valid Redirect URls : http://localhost:8080/login/oauth2/code/spring-cloud-gateway-client
+
+ 
+
+copiar el secret:
+iL0mq4j3ueT6iDCnKSyL7NUaGnsxgPq7
+
+crear un usuario:
+llenar los campos username, email, first name, last name
+usernam:myuser
+en la opcion de credentials
+colocar la password
+123456
+y poner a temporary en off 
